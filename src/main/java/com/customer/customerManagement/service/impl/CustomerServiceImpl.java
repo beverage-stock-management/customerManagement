@@ -1,11 +1,15 @@
 package com.customer.customerManagement.service.impl;
 
 import com.customer.customerManagement.dto.CustomerDto;
+import com.customer.customerManagement.exceptions.CustomerNotFoundException;
 import com.customer.customerManagement.modal.Customer;
 import com.customer.customerManagement.repository.CustomerRepository;
 import com.customer.customerManagement.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -36,5 +40,27 @@ public class CustomerServiceImpl implements CustomerService {
         customerResponse.setDealer(newCustomer.getDealer());
 
         return customerResponse;
+    }
+
+    @Override
+    public List<CustomerDto> getCustomers() {
+        List<Customer> customer = customerRepository.findAll();
+        return customer.stream().map(customer1 -> mapToDto(customer1)).collect(Collectors.toList());
+    }
+
+    @Override
+    public CustomerDto getCustomer(int id) {
+        Customer customer = customerRepository.findById(id).orElseThrow(() -> new CustomerNotFoundException("Customer cannot be found"));
+        return mapToDto(customer);
+    }
+
+    private CustomerDto mapToDto(Customer customer){
+        CustomerDto customerDto = new CustomerDto();
+        customerDto.setId(customer.getId());
+        customerDto.setName(customer.getName());
+        customerDto.setPhone(customer.getPhone());
+        customerDto.setAddress(customer.getAddress());
+        customerDto.setDealer(customer.getDealer());
+        return customerDto;
     }
 }
