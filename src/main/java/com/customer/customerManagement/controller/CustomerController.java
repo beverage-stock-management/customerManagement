@@ -33,7 +33,19 @@ public class CustomerController {
     }
 
     @GetMapping("customer/{id}")
-    public ResponseEntity<CustomerDto> getCustomer(@PathVariable int id){
+    public ResponseEntity<CustomerDto> getCustomer(@PathVariable("id") int id){
         return ResponseEntity.ok(customerService.getCustomer(id));
+    }
+
+    @PutMapping("customer/{id}/update")
+    public ResponseEntity<CustomerDto> updateCustomer(@RequestBody CustomerDto customerDto, @PathVariable("id") int customerId){
+        CustomerDto response = customerService.updateCustomer(customerDto, customerId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @DeleteMapping("customer/{id}/delete")
+    public ResponseEntity<String> deleteCustomer(@PathVariable("id") int customerId){
+       customerService.deleteCustomer(customerId);
+       return new ResponseEntity<>("Successfully deleted", HttpStatus.OK);
     }
 }

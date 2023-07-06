@@ -12,4 +12,8 @@ public interface CustomerService {
     List<CustomerDto> getCustomers();
 
     CustomerDto getCustomer(int id);
+
+    CustomerDto updateCustomer(CustomerDto customerDto, int id);
+
+    void deleteCustomer(int id);
 }
