@@ -1,4 +1,4 @@
-package com.customer.customerManagement.controller;
+package com.customer.customerManagement.exceptions;
 
 import lombok.Data;
 
@@ -9,5 +9,4 @@ public class ErrorObject {
     private Integer statusCode;
     private String message;
     private Date timeStamp;
-
 }
